@@ -1,6 +1,5 @@
-<<<<<<< HEAD
 # av_hubert_alignment
-=======
+
 # Align-AV-HuBERT
 
 
@@ -91,4 +90,3 @@ $ python -B infer_alignment.py --config-dir ./conf/inference --config-name infer
 ```
 
 
->>>>>>> main
