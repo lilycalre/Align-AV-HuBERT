@@ -1,8 +1,5 @@
-# av_hubert_alignment
-Inference code and models are provided. Training code will be released soon.
-
 # Align-AV-HuBERT
-
+Inference code and models are provided. Training code will be released soon.
 
 ## Introduction
 Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and
