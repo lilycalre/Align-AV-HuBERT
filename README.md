@@ -1,4 +1,5 @@
 # av_hubert_alignment
+Inference code and models are provided. Training code will be released soon.
 
 # Align-AV-HuBERT
 
