@@ -2,8 +2,7 @@
 Inference code and models are provided. Training code will be released soon.
 
 ## Introduction
-Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and
-speech recognition.
+Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and audio-visual speech representation.
 
 
 ## Pre-trained and fine-tuned models
