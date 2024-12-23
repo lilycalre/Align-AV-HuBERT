@@ -1,3 +1,6 @@
-base_433_30.pt filter=lfs diff=lfs merge=lfs -text
-base_433_433.pt filter=lfs diff=lfs merge=lfs -text
+base_433_30_align.pt filter=lfs diff=lfs merge=lfs -text
+base_433_433_align.pt filter=lfs diff=lfs merge=lfs -text
 base_433_pretrain.pt filter=lfs diff=lfs merge=lfs -text
+base_1759_30_align.pt filter=lfs diff=lfs merge=lfs -text
+base_1759_433_align.pt filter=lfs diff=lfs merge=lfs -text
+base_1759_pretrain.pt filter=lfs diff=lfs merge=lfs -text
