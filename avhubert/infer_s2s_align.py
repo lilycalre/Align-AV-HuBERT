@@ -139,7 +139,8 @@ def _main(cfg, output_file):
         task.cfg.label_dir = cfg.override.label_dir
 
     for shift_num in range(-25, 26):#diferent shift number
-        task.load_dataset(cfg.dataset.gen_subset,task_cfg=saved_cfg.task,shift_num_fixed=shift_num, ) 
+        isfaster=(shift_num>=0)
+        task.load_dataset(cfg.dataset.gen_subset,shift_num_fixed=shift_num, isfaster=isfaster, task_cfg=saved_cfg.task) 
 
         lms = [None]
 

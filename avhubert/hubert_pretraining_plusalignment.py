@@ -24,10 +24,10 @@ import numpy as np
 from argparse import Namespace
 
 
-from .hubert_dataset_fixedshift import AVHubertDataset #for s2s_decode of fixed shift number
-#from .hubert_dataset_alignment import AVHubertDataset #for infer_alignment
-from .sequence_generator_plusalignment import SequenceGenerator #for s2s_decode
-#from .sequence_generator_alignment import SequenceGenerator #for infer_alignment
+#from .hubert_dataset_fixedshift import AVHubertDataset #for s2s_decode of fixed shift number
+from .hubert_dataset_alignment import AVHubertDataset #for infer_alignment
+#from .sequence_generator_plusalignment import SequenceGenerator #for s2s_decode
+from .sequence_generator_alignment import SequenceGenerator #for infer_alignment
 
 logger = logging.getLogger(__name__)
 
@@ -228,7 +228,7 @@ class AVHubertPretrainingTaskPlusAlignment(FairseqTask):
             return self.cfg.data
         return self.cfg.label_dir
 
-    def load_dataset(self, split: str,**kwargs, ) -> None:
+    def load_dataset(self, split: str,shift_num_fixed=0 ,isfaster=True,**kwargs, ) -> None:
         manifest = f"{self.cfg.data}/{split}.tsv"
         dictionaries = [self.target_dictionary] if self.fine_tuning else self.dictionaries
         pad_list = [dictionary.pad() for dictionary in dictionaries]
@@ -273,8 +273,10 @@ class AVHubertPretrainingTaskPlusAlignment(FairseqTask):
             noise_prob=self.cfg.noise_prob,
             noise_snr=noise_snr,
             noise_num=noise_num,
-            max_shift_num=self.cfg.max_shift_num,
-            shift_time=self.cfg.shift_time,
+            #max_shift_num=self.cfg.max_shift_num,
+            #shift_time=self.cfg.shift_time,
+            shift_num_fixed=shift_num_fixed,
+            isfaster=isfaster,
         )
 
     def max_positions(self) -> Tuple[int, int]:

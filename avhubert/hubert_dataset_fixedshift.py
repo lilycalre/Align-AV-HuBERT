@@ -177,8 +177,10 @@ class AVHubertDataset(FairseqDataset):
             noise_prob=0,
             noise_snr=0,
             noise_num=1,
-            shift_num_fixed=0
+            shift_num_fixed=0,
+            isfaster=True,
     ):
+        self.isfaster=isfaster
         self.label_rates = (
             [label_rates for _ in range(len(label_paths))] 
             if isinstance(label_rates, int)
@@ -425,7 +427,7 @@ class AVHubertDataset(FairseqDataset):
         targets_list, lengths_list, ntokens_list = self.collater_label(
             targets_by_label, audio_size, audio_starts
         )
-        source = {"audio": collated_audios, "video": collated_videos}
+        source = {"audio": collated_audios, "video": collated_videos,'isfaster':self.isfaster}
         net_input = {"source": source, "padding_mask": padding_mask}
         batch = {
             "id": torch.LongTensor([s["id"] for s in samples]),

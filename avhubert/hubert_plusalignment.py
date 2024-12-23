@@ -845,7 +845,7 @@ class AVHubertModelplusalignment(BaseFairseqModel):
 
     def extract_finetune_shift(self, source, padding_mask=None, mask=False, ret_conv=False, output_layer=None):
         src_audio, src_video = source['audio'], source['video']
-
+        isfaster=source['isfaster']
         ##
         src_audio_origin=src_audio
         src_video_origin=src_video
@@ -914,21 +914,38 @@ class AVHubertModelplusalignment(BaseFairseqModel):
             #calculating cosine similarity of each diagonal
             num=min(num_logits,max_shift_num + 1)#
 
-            for inum in range(-num+1,num):   
-                if inum < 0:
-                    logits_per_audio_tmp=logits_per_audio[-inum:]
-                    logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
-                elif inum > 0:
-                    logits_per_audio_tmp=logits_per_audio[:-inum]
-                    logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
-                else:
-                    logits_per_audio_tmp=logits_per_audio
-                diag_value=torch.diag(logits_per_audio_tmp)
-                similarity=sum(diag_value)/len(diag_value)
-                if similarity>similarity_max:
-                    similarity_max=similarity
-                    shift_res=inum
-            shift_res_batch.append(shift_res)
+            if isfaster:
+                for inum in range(0,num):   
+                    if inum < 0:
+                        logits_per_audio_tmp=logits_per_audio[-inum:]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
+                    elif inum > 0:
+                        logits_per_audio_tmp=logits_per_audio[:-inum]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
+                    else:
+                        logits_per_audio_tmp=logits_per_audio
+                    diag_value=torch.diag(logits_per_audio_tmp)
+                    similarity=sum(diag_value)/len(diag_value)
+                    if similarity>similarity_max:
+                        similarity_max=similarity
+                        shift_res=inum
+                shift_res_batch.append(shift_res)
+            else:
+                for inum in range(-num+1,1):   
+                    if inum < 0:
+                        logits_per_audio_tmp=logits_per_audio[-inum:]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
+                    elif inum > 0:
+                        logits_per_audio_tmp=logits_per_audio[:-inum]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
+                    else:
+                        logits_per_audio_tmp=logits_per_audio
+                    diag_value=torch.diag(logits_per_audio_tmp)
+                    similarity=sum(diag_value)/len(diag_value)
+                    if similarity>similarity_max:
+                        similarity_max=similarity
+                        shift_res=inum
+                shift_res_batch.append(shift_res)
 
 
 
@@ -999,7 +1016,7 @@ class AVHubertModelplusalignment(BaseFairseqModel):
         output_layer: Optional[int] = None
     ) -> Dict[str, torch.Tensor]:
         src_audio, src_video = source['audio'], source['video']
-
+        isfasters=source['isfaster']
         ##
         src_audio_origin=src_audio
         src_video_origin=src_video
@@ -1056,7 +1073,7 @@ class AVHubertModelplusalignment(BaseFairseqModel):
         x_audio = x_audio / x_audio.norm(dim=2, keepdim=True)
         x_video = x_video / x_video.norm(dim=2, keepdim=True)
         shift_res_batch=[]
-        for i, (f_audio, f_video) in enumerate(zip(x_audio, x_video)):
+        for i, (f_audio, f_video,isfaster) in enumerate(zip(x_audio, x_video,isfasters)):
             if len(f_audio) != len(f_video):
                 raise("len(f_audio):{} and len(f_video):{} not match".format(len(f_audio),len(f_video)))
             logits_per_audio = self.logit_scale_a * f_audio @ f_video.T
@@ -1067,21 +1084,38 @@ class AVHubertModelplusalignment(BaseFairseqModel):
 
             num=min(num_logits,max_shift_num+1)
 
-            for inum in range(-num+1,num):  
-                if inum < 0:
-                    logits_per_audio_tmp=logits_per_audio[-inum:]
-                    logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
-                elif inum > 0:
-                    logits_per_audio_tmp=logits_per_audio[:-inum]
-                    logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
-                else:
-                    logits_per_audio_tmp=logits_per_audio
-                diag_value=torch.diag(logits_per_audio_tmp)
-                similarity=sum(diag_value)/len(diag_value)
-                if similarity>similarity_max:
-                    similarity_max=similarity
-                    shift_res=inum
-            shift_res_batch.append(shift_res)
+            if isfaster:
+                for inum in range(0,num):   
+                    if inum < 0:
+                        logits_per_audio_tmp=logits_per_audio[-inum:]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
+                    elif inum > 0:
+                        logits_per_audio_tmp=logits_per_audio[:-inum]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
+                    else:
+                        logits_per_audio_tmp=logits_per_audio
+                    diag_value=torch.diag(logits_per_audio_tmp)
+                    similarity=sum(diag_value)/len(diag_value)
+                    if similarity>similarity_max:
+                        similarity_max=similarity
+                        shift_res=inum
+                shift_res_batch.append(shift_res)
+            else:
+                for inum in range(-num+1,1):   
+                    if inum < 0:
+                        logits_per_audio_tmp=logits_per_audio[-inum:]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,:inum]
+                    elif inum > 0:
+                        logits_per_audio_tmp=logits_per_audio[:-inum]
+                        logits_per_audio_tmp=logits_per_audio_tmp[:,inum:]
+                    else:
+                        logits_per_audio_tmp=logits_per_audio
+                    diag_value=torch.diag(logits_per_audio_tmp)
+                    similarity=sum(diag_value)/len(diag_value)
+                    if similarity>similarity_max:
+                        similarity_max=similarity
+                        shift_res=inum
+                shift_res_batch.append(shift_res)
         return shift_res_batch
 
     def get_extra_losses(self, net_output):

@@ -178,6 +178,8 @@ class AVHubertDataset(FairseqDataset):
             noise_num=1,
             max_shift_num=1.0, 
             shift_time = 3, 
+            shift_num_fixed=0 ,
+            isfaster=True,
     ):
         self.label_rates = (
             [label_rates for _ in range(len(label_paths))]
@@ -288,7 +290,7 @@ class AVHubertDataset(FairseqDataset):
         if 'video' in self.modalities:
             video_feats = self.load_video(video_fn) # [T, H, W, 1]
         else:
-            video_feats = None #video或者audio可以没有
+            video_feats = None 
 
         audio_fn = audio_fn.split(':')[0] #audio_path
         sample_rate, wav_data = wavfile.read(audio_fn)
@@ -403,6 +405,7 @@ class AVHubertDataset(FairseqDataset):
 
         audio_source, video_source = [s["audio_source"] for s in samples], [s["video_source"] for s in samples] #
         shift_num = [s["shift_num"] for s in samples]
+        isfaster = [(s["shift_num"]>=0) for s in samples]
         if audio_source[0] is None:
             audio_source = None
         if video_source[0] is None:
@@ -424,7 +427,7 @@ class AVHubertDataset(FairseqDataset):
         else:
             collated_videos = None
 
-        source = {"audio": collated_audios, "video": collated_videos,"shift_num": shift_num}
+        source = {"audio": collated_audios, "video": collated_videos,"shift_num": shift_num,"isfaster": isfaster}
         # net_input = {"source": source, "padding_mask": padding_mask}
         net_input = {"source": source}
         batch = {
