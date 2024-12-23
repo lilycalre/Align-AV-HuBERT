@@ -1,12 +1,8 @@
-<<<<<<< HEAD
-# av_hubert_alignment
-=======
 # Align-AV-HuBERT
-
+Inference code and models are provided. Training code will be released soon.
 
 ## Introduction
-Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and
-speech recognition.
+Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and audio-visual speech representation.
 
 
 ## Pre-trained and fine-tuned models
@@ -65,7 +61,7 @@ Note that in Fairseq, all gpus are used for inference and data are splited accor
 
 #### Seq2Seq decoding on fiexed shift number from (-25, 25) frames
 
-In terms of Fairseq, to test on fiexed shift number from (-25, 25) frames, please change "from .hubert_dataset_alignment import AVHubertDataset" to "from .hubert_dataset_fixedshift import AVHubertDataset" in the hubert_pretraining.py.
+In terms of Fairseq, to test on fiexed shift number from (-25, 25) frames, please use "from .hubert_dataset_fixedshift import AVHubertDataset" and "from .sequence_generator_plusalignment import SequenceGenerator" in the hubert_pretraining.py.
 
 
 ```sh
@@ -79,7 +75,7 @@ $ python -B infer_s2s_align.py --config-dir ./conf/inference --config-name s2s_d
 
 #### Testing accuracy for predicting shift number
 
-To test accuracy for predicting shift number, please change "from .hubert_dataset_fixedshift import AVHubertDataset" to "from .hubert_dataset_alignment import AVHubertDataset" and change "from .sequence_generator_plusalignment import SequenceGenerator" to "from .sequence_generator_alignment import SequenceGenerator" in the hubert_pretraining.py.
+In terms of Fairseq, to test accuracy for predicting shift number, please change "from .hubert_dataset_fixedshift import AVHubertDataset" to "from .hubert_dataset_alignment import AVHubertDataset" and change "from .sequence_generator_plusalignment import SequenceGenerator" to "from .sequence_generator_alignment import SequenceGenerator" in the hubert_pretraining.py.
 
 ```sh
 $ cd avhubert
@@ -91,4 +87,3 @@ $ python -B infer_alignment.py --config-dir ./conf/inference --config-name infer
 ```
 
 
->>>>>>> main
