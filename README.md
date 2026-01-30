@@ -1,4 +1,15 @@
 # Align-AV-HuBERT
+[Align-AV-HuBERT: AV-HuBERT with Audio-Visual Temporal Alignment](https://ieeexplore.ieee.org/document/11210211)
+```
+@inproceedings{li2025align,
+  title={Align-AV-HuBERT: AV-HuBERT with Audio-Visual Temporal Alignment},
+  author={Li, Cancan and Su, Fei and Liu, Juan},
+  booktitle={2025 IEEE International Conference on Multimedia and Expo (ICME)},
+  pages={1--6},
+  year={2025},
+  organization={IEEE}
+}
+```
 ## Introduction
 Align-AV-HuBERT, which eneable the model for simultaneous audio-visual temporal alignment and audio-visual speech representation.
 
